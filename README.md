@@ -3,25 +3,37 @@
 An intelligent **AI-powered recipe chatbot** that suggests dishes based on ingredients you provide.  
 It uses **FastAPI** for the backend, **Sentence Transformers + FAISS** for semantic search, and a simple **HTML + JavaScript frontend** for the chat interface.
 
-## 📁 Project Structure
+## 🧩 Project Architecture
 
-recipe_chatbot/
-├── backend/
-│   ├── preprocess.py
-│   ├── build_index.py
-│   ├── server.py
-│   ├── quantity_generator.py
-│   └── models/
-├── data/
-│   └── recipe.json
-├── frontend/
-│   ├── index.html
-│   ├── background.jpg
-│   ├── bot_start.png
-│   └── bot_response.png
-├── venv/
-├── requirements.txt
-└── README.md
+Recipe Chatbot/
+├── ⚙️ **Backend System**
+│   ├── preprocess.py             # 🧹 Cleans and preprocesses raw recipe data
+│   ├── build_index.py            # 🧠 Builds FAISS embeddings for semantic search
+│   ├── server.py                 # 🚀 FastAPI server for chatbot communication
+│   ├── quantity_generator.py     # 📏 Generates ingredient quantities dynamically
+│   └── models/                   # 💾 Stores FAISS index and metadata files
+│       ├── recipes.index
+│       ├── recipes_meta.json
+│       └── recipes_clean.json
+
+├── 📊 **Data System**
+│   └── data/
+│       └── recipe.json           # 🍲 Collection of recipe dataset used for training
+
+├── 💻 **Frontend Interface**
+│   └── frontend/
+│       ├── index.html            # 🌐 Web UI for user interaction
+│       ├── background.jpg        # 🎨 Background design for the chat interface
+│       ├── bot_start.png         # 🖼️ Screenshot — chatbot initial screen
+│       └── bot_response.png      # 🖼️ Screenshot — chatbot recipe response
+
+├── 🧾 **Environment & Dependencies**
+│   ├── requirements.txt          # 📦 Python libraries required for project
+│   └── venv/                     # 🧬 Virtual environment (optional, local setup)
+
+└── 📘 **Documentation**
+    └── README.md                 # 🪶 Project overview and setup instructions
+
 
 
 ## ⚙️ Setup Instructions
