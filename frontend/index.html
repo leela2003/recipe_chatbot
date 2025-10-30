@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Gemini Recipe Chatbot</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+  }
+  .chat-container {
+    width: 760px;
+    background: rgba(255,255,255,0.96);
+    border-radius: 12px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.18);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    background: linear-gradient(90deg,#6a1b9a,#8e24aa);
+    color: white;
+    padding: 18px 22px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .chat-area {
+    display:flex;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .main-chat {
+    flex: 1;
+    display:flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .chat-box {
+    background: transparent;
+    padding: 0 4px;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+
+  .bot-msg, .user-msg {
+    max-width: 82%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    line-height: 1.5;
+    font-size: 15px;
+    word-wrap: break-word;
+  }
+
+  .bot-msg {
+    background: #f0f0f0;
+    color: #111;
+    align-self: flex-start;
+  }
+
+  .user-msg {
+    background: #e8fbe8;
+    align-self: flex-end;
+    color: #111;
+  }
+
+  .recipe-card {
+    background: #fdfdfd;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+    border: 1px solid #e5e5e5;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    font-size: 15px;
+  }
+  .recipe-card h3 {
+    margin: 0 0 8px 0;
+    color:#222;
+    font-size:18px;
+    font-weight:700;
+  }
+  .recipe-card b { color:#333; }
+
+  .input-area {
+    display:flex;
+    gap: 12px;
+    padding: 16px;
+    border-top: 1px solid #e6e6e6;
+    align-items: center;
+  }
+
+  .input-area input {
+    flex: 1;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 15px;
+    outline: none;
+  }
+
+  .input-area button {
+    background: #6a1b9a;
+    color: white;
+    border: 0;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .input-area button:hover { background: #8e24aa; }
+
+  .status { color:#666; font-style: italic; padding: 6px 20px 12px 20px; }
+
+  ::-webkit-scrollbar { width: 8px; height: 12px; }
+  ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 6px; }
+</style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="header">😊 Recipe Chatbot</div>
+    <div class="chat-area">
+      <div class="main-chat">
+        <div id="chat" class="chat-box">
+          <div class="bot-msg">Welcome! I'm your personal chef. What ingredients do you have on hand?</div>
+        </div>
+        <div id="status" class="status"></div>
+        <div class="input-area">
+          <input id="ingredients" placeholder="e.g., Egg, Onions, Milk, Cheese" />
+          <button onclick="sendMessage()">Suggest Recipe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const chat = document.getElementById('chat');
+const status = document.getElementById('status');
+
+function appendUser(text) {
+  const d = document.createElement('div');
+  d.className = 'user-msg';
+  d.textContent = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function appendRecipeCard(r) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'recipe-card';
+
+  // Recipe name
+  const title = document.createElement('h3');
+  title.textContent = `🍽️ ${r.recipe_name || r.name || "Recipe Suggestion"}`;
+  wrapper.appendChild(title);
+
+  // Ingredients
+  const ingTitle = document.createElement('b');
+  ingTitle.textContent = '🧂 Ingredients:';
+  wrapper.appendChild(ingTitle);
+
+  const ul = document.createElement('ul');
+  ul.style.margin = '6px 0 10px 18px';
+  
+  if (r.quantity) {
+    // if backend sends combined quantities string
+    const li = document.createElement('li');
+    li.textContent = r.quantity;
+    ul.appendChild(li);
+  } else if (Array.isArray(r.ingredients)) {
+    r.ingredients.forEach(i => {
+      const li = document.createElement('li');
+      li.textContent = i;
+      ul.appendChild(li);
+    });
+  } else if (typeof r.ingredients === 'string') {
+    const li = document.createElement('li');
+    li.textContent = r.ingredients;
+    ul.appendChild(li);
+  }
+
+  wrapper.appendChild(ul);
+
+  // Instructions
+  const instrTitle = document.createElement('b');
+  instrTitle.textContent = '👨‍🍳 Instructions:';
+  wrapper.appendChild(instrTitle);
+
+  const ol = document.createElement('ol');
+  ol.style.margin = '6px 0 0 18px';
+  const steps = (r.step_by_step || r.text || '').split(/\n|(?=\d+\.)/).filter(s=>s.trim());
+  if(steps.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = r.text || 'No instructions available.';
+    ol.appendChild(li);
+  } else {
+    steps.forEach(s=>{
+      const li = document.createElement('li');
+      li.textContent = s.replace(/^\d+\.\s*/, '').trim();
+      ol.appendChild(li);
+    });
+  }
+  wrapper.appendChild(ol);
+
+  chat.appendChild(wrapper);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('ingredients');
+  const text = input.value.trim();
+  if(!text) return;
+  appendUser(text);
+  input.value = '';
+  status.textContent = 'AI: Thinking...';
+
+  try {
+    const res = await fetch('http://127.0.0.1:8000/api/recipe', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ingredients: text.split(',').map(s=>s.trim()), top_k: 3})
+    });
+    const j = await res.json();
+    if(j.results && j.results.length) {
+      appendRecipeCard(j.results[0]);
+    } else {
+      const msg = document.createElement('div');
+      msg.className = 'bot-msg';
+      msg.textContent = 'Sorry, no recipes found for those ingredients.';
+      chat.appendChild(msg);
+    }
+  } catch(err) {
+    const msg = document.createElement('div');
+    msg.className = 'bot-msg';
+    msg.textContent = 'Error contacting API.';
+    chat.appendChild(msg);
+  } finally {
+    status.textContent = '';
+  }
+}
+</script>
+</body>
+</html>

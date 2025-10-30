@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+pydantic
+sentence-transformers
+faiss-cpu        # fallback: see note below if this fails on Windows
+transformers     # optional, for future LLM generation
+torch            # CPU version (or GPU-specific as needed)
+python-multipart
+aiohttp
+# Note: If faiss-cpu fails to install on Windows, consider using the following command to install from a pre-built wheel:
+# pip install faiss-cpu -f https://download.pytorch.org/whl/
