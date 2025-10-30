@@ -5,36 +5,37 @@ It uses **FastAPI** for the backend, **Sentence Transformers + FAISS** for seman
 
 ## 🧩 Project Architecture
 
+```bash
 Recipe Chatbot/
-├── ⚙️ **Backend System**
-│   ├── preprocess.py             # 🧹 Cleans and preprocesses raw recipe data
-│   ├── build_index.py            # 🧠 Builds FAISS embeddings for semantic search
-│   ├── server.py                 # 🚀 FastAPI server for chatbot communication
-│   ├── quantity_generator.py     # 📏 Generates ingredient quantities dynamically
-│   └── models/                   # 💾 Stores FAISS index and metadata files
+│
+├── ⚙️ Backend System
+│   ├── preprocess.py           # 🧹 Cleans and preprocesses raw recipe data
+│   ├── build_index.py          # 🧠 Builds FAISS embeddings for semantic search
+│   ├── server.py               # 🚀 FastAPI server for chatbot communication
+│   ├── quantity_generator.py   # 📏 Generates ingredient quantities dynamically
+│   └── models/                 # 💾 Stores FAISS index and metadata files
 │       ├── recipes.index
 │       ├── recipes_meta.json
 │       └── recipes_clean.json
-
-├── 📊 **Data System**
+│
+├── 📊 Data System
 │   └── data/
-│       └── recipe.json           # 🍲 Collection of recipe dataset used for training
-
-├── 💻 **Frontend Interface**
+│       └── recipe.json         # 🍲 Recipe dataset used for fine-tuning
+│
+├── 💻 Frontend Interface
 │   └── frontend/
-│       ├── index.html            # 🌐 Web UI for user interaction
-│       ├── background.jpg        # 🎨 Background design for the chat interface
-│       ├── bot_start.png         # 🖼️ Screenshot — chatbot initial screen
-│       └── bot_response.png      # 🖼️ Screenshot — chatbot recipe response
-
-├── 🧾 **Environment & Dependencies**
-│   ├── requirements.txt          # 📦 Python libraries required for project
-│   └── venv/                     # 🧬 Virtual environment (optional, local setup)
-
-└── 📘 **Documentation**
-    └── README.md                 # 🪶 Project overview and setup instructions
-
-
+│       ├── index.html          # 🌐 Web UI for user interaction
+│       ├── background.jpg      # 🎨 Background image for chat interface
+│       ├── bot_start.png       # 🖼️ Chatbot initial state screenshot
+│       └── bot_response.png    # 🖼️ Chatbot response screenshot
+│
+├── 🧾 Environment & Dependencies
+│   ├── requirements.txt        # 📦 Python libraries required for the project
+│   └── venv/                   # 🧬 Virtual environment (optional, local setup)
+│
+└── 📘 Documentation
+    └── README.md               # 🪶 Project overview and setup guide
+```
 
 ## ⚙️ Setup Instructions
 
