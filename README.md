@@ -4,26 +4,24 @@ An intelligent **AI-powered recipe chatbot** that suggests dishes based on ingre
 It uses **FastAPI** for the backend, **Sentence Transformers + FAISS** for semantic search, and a simple **HTML + JavaScript frontend** for the chat interface.
 
 ## 📁 Project Structure
-
+```bash
 recipe_chatbot/
-│
 ├── backend/
 │   ├── preprocess.py
 │   ├── build_index.py
 │   ├── server.py
 │   ├── quantity_generator.py
 │   └── models/
-│
 ├── data/
 │   └── recipe.json
-│
 ├── frontend/
 │   ├── index.html
-│   └── background.jpg
-│
+│   ├── background.jpg
+│   ├── bot_start.png
+│   └── bot_response.png
 ├── venv/
-│
-└── requirements.txt
+├── requirements.txt
+└── README.md
 
 
 ## ⚙️ Setup Instructions
