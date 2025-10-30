@@ -115,6 +115,7 @@ python -m uvicorn server:app --reload
 
 The backend runs at → **http://127.0.0.1:8000**
 
+---
 
 ### 💻 Step 4: Run Frontend
 In a new terminal, start the frontend server:
@@ -128,6 +129,7 @@ python -m http.server 5500
 Open your browser and go to:  
 👉 **http://127.0.0.1:5500/index.html**
 
+---
 
 ## 💬 How to Use
 
@@ -138,6 +140,7 @@ Open your browser and go to:
    - Auto-generated ingredient quantities  
    - Step-by-step cooking instructions  
 
+---
 
 ## 🧾 Sample Input & Output
 
@@ -158,7 +161,7 @@ palak, paneer, cream
 4. Add paneer cubes and cream, mix well.
 5. Serve hot with roti or naan.
 ```
-
+---
 
 ## 🧠 Working Flow
 
@@ -170,7 +173,7 @@ palak, paneer, cream
 | 4️⃣ | FastAPI backend handles requests |
 | 5️⃣ | Frontend connects to backend API and displays results |
 
-
+---
 
 ## 🖼️ Screenshots
 
@@ -185,6 +188,7 @@ palak, paneer, cream
 > - `bot_response.png` → second image (Palak Paneer result)
 
 
+---
 
 ## ✅ Verification Steps
 
@@ -195,13 +199,14 @@ palak, paneer, cream
 5. Verify that:
    - API returns recipes  
    - Frontend chatbot UI displays response correctly  
-   - The project runs entirely offline  
-
+   - The project runs entirely offline
+      
+---
 
 ## 📦 Deliverables Checklist
 
--  Complete runnable code  
--  All dependencies in `requirements.txt`  
--  README with full setup and usage instructions  
--  Sample input and output  
--  Screenshots for verification  
+- [x] Complete runnable code  
+- [x] All dependencies in `requirements.txt`  
+- [x] README with full setup and usage instructions  
+- [x] Sample input and output  
+- [x] Screenshots for verification 
